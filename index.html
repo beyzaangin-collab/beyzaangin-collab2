@@ -526,6 +526,147 @@ body.dark .counter-outer {
   opacity: .7 !important;
   text-shadow: none;
 }
+
+/* ===============================
+   VAAOVV MODE – COSMIC GLOW
+   =============================== */
+
+/* ARKA PLAN – İPEK GİBİ */
+body {
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.6), transparent 40%),
+    var(--bg-gradient);
+}
+
+/* GENEL GEÇİŞLER */
+* {
+  transition:
+    all .4s cubic-bezier(.2,.8,.2,1);
+}
+
+/* TOP BAR – FLOATING */
+.top-bar {
+  backdrop-filter: blur(20px);
+}
+
+.menu-btn, .theme-btn {
+  background: linear-gradient(145deg,
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0.15)
+  );
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.12),
+    inset 0 1px 2px rgba(255,255,255,0.6);
+}
+
+.menu-btn:hover, .theme-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* SIDEBAR – IŞIKLI CAM */
+.sidebar {
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.65),
+      rgba(255,255,255,0.45)
+    );
+  box-shadow:
+    30px 0 80px rgba(0,0,0,0.35);
+}
+
+/* LIST ITEM – PREMIUM CARD */
+.list-item {
+  background:
+    linear-gradient(145deg,
+      rgba(255,255,255,0.35),
+      rgba(255,255,255,0.15)
+    );
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.15),
+    inset 0 1px 1px rgba(255,255,255,0.4);
+}
+
+.list-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.25);
+}
+
+/* FAVORİ KALP – AŞKLI */
+.fav-btn {
+  filter:
+    drop-shadow(0 0 6px var(--accent))
+    drop-shadow(0 0 14px rgba(255,255,255,0.6));
+}
+
+.fav-btn:hover {
+  transform: scale(1.25);
+}
+
+/* SAYAÇ – AURA YAYIYOR */
+.counter-outer {
+  background:
+    radial-gradient(circle at top,
+      rgba(255,255,255,0.6),
+      rgba(255,255,255,0.15) 60%
+    );
+  box-shadow:
+    0 40px 90px rgba(0,0,0,0.35),
+    0 0 80px rgba(255,133,186,0.35),
+    inset 0 6px 18px rgba(255,255,255,0.6);
+}
+
+/* SAYI – KUTSAL */
+.count {
+  text-shadow:
+    0 0 25px rgba(255,255,255,0.7),
+    0 0 45px rgba(255,133,186,0.6);
+}
+
+/* ZİKİR BUTONU – CANLI ÇEKİRDEK */
+.zikir-btn {
+  background:
+    radial-gradient(circle at top,
+      #fff,
+      var(--accent) 60%
+    );
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.35),
+    0 0 40px var(--accent),
+    inset 0 -6px 12px rgba(0,0,0,0.15);
+}
+
+.zikir-btn:hover {
+  transform: scale(1.08);
+}
+
+.zikir-btn:active {
+  transform: scale(.94);
+}
+
+/* RENK SEÇİCİ – IŞIK NOKTALARI */
+.color-picker {
+  background:
+    linear-gradient(145deg,
+      rgba(255,255,255,0.35),
+      rgba(255,255,255,0.15)
+    );
+}
+
+.dot {
+  box-shadow:
+    0 0 15px rgba(255,255,255,0.8);
+}
+
+.dot:hover {
+  transform: scale(1.3);
+}
+
+/* SIFIRLA – GHOST */
+.main > div:last-child {
+  opacity: .6;
+  letter-spacing: 2px;
+}
 </style>
 </head>
 <body>
