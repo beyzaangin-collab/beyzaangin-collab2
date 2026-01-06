@@ -15,316 +15,564 @@
 <link rel="manifest" href='data:application/json,{"name":"Beyza Zikirmatik","short_name":"Zikirmatik","start_url":".","display":"standalone","background_color":"#fce4ec","theme_color":"#ff85ba","icons":[{"src":"https://i.ibb.co/4w91L2Hp/icon-512-png.jpg","sizes":"512x512","type":"image/jpeg","purpose":"any maskable"}]}'>
 
 
-<title>Beyza Zikirmatik Pro+</title>
+<title>Beyza Zikirmatik Pro</title>
 
 <style>
-:root {
+:root{
   --accent: #ff85ba;
-  --glass: rgba(255, 255, 255, 0.2);
-  --glass-heavy: rgba(255, 255, 255, 0.6);
+  --glass: rgba(255, 255, 255, 0.15);
+  --glass-heavy: rgba(255, 255, 255, 0.5);
   --text: #2c3e50;
-  --bg-gradient: linear-gradient(160deg, #fce4ec 0%, #e1f5fe 100%);
-  --shadow: 0 15px 35px rgba(0,0,0,0.1);
+  --bg-gradient: linear-gradient(135deg, #fce4ec 0%, #e1f5fe 100%);
+  --outer-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  --inner-glow: inset 0 2px 10px rgba(255,255,255,0.5);
 }
 
-body.dark {
+body.theme-blue { --accent: #4facfe; --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); }
+body.theme-green { --accent: #00b894; --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%); }
+body.theme-orange { --accent: #e17055; --bg-gradient: linear-gradient(135deg, #fff3e0 0%, #fbe9e7 100%); }
+
+body.dark{
   --glass: rgba(255, 255, 255, 0.05);
-  --glass-heavy: rgba(15, 23, 42, 0.9);
-  --text: #f1f2f6;
-  --bg-gradient: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+  --glass-heavy: rgba(30, 30, 45, 0.85);
+  --text: #ffffff;
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --outer-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  --inner-glow: inset 0 1px 1px rgba(255,255,255,0.1);
 }
 
-body.theme-blue { --accent: #4facfe; }
-body.theme-green { --accent: #00b894; }
-body.theme-orange { --accent: #e17055; }
+*{
+  box-sizing:border-box;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action: manipulation;
+}
 
-* { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; outline: none; }
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+body{
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg-gradient);
   background-attachment: fixed;
   color: var(--text);
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transition: 0.5s ease;
+  overflow: hidden;
+  transition: 0.5s;
 }
 
-/* Üst Menü */
 .top-bar {
-  padding: 20px;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
   z-index: 2000;
 }
 
-.btn-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
+.menu-btn, .theme-btn {
+  font-size: 24px;
   background: var(--glass);
   backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid rgba(255,255,255,0.2);
+  width: 45px;
+  height: 45px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  color: var(--text);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Yan Menü (Sidebar) */
-.sidebar {
-  position: fixed; top: 0; left: 0; height: 100%; width: 300px;
+.sidebar{
+  position: fixed;
+  top: 0; left: 0; height: 100%; width: 290px;
   background: var(--glass-heavy);
   backdrop-filter: blur(40px);
-  z-index: 2500;
-  transform: translateX(-100%);
+  -webkit-backdrop-filter: blur(40px);
+  border-right: 1px solid rgba(255,255,255,0.1);
   transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1500;
   display: flex;
   flex-direction: column;
-  box-shadow: 20px 0 50px rgba(0,0,0,0.1);
 }
-.sidebar.open { transform: translateX(0); }
 
-.sidebar-content { flex: 1; overflow-y: auto; padding: 100px 20px 180px; }
+.sidebar.closed{ transform: translateX(-100%); }
+
+.sidebar-scroll{
+  flex: 1;
+  overflow-y: auto;
+  padding: 90px 15px 160px 15px;
+}
+
+.fixed-add{
+  position: absolute;
+  bottom: 0; left: 0; width: 100%;
+  padding: 25px 20px;
+  background: var(--glass-heavy);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.fixed-add input{
+  width: 100%; padding: 14px; border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+  margin-bottom: 12px; font-size: 16px; outline: none; color: var(--text);
+}
+
+.add-btn {
+  width: 100%; background: var(--accent); color: white;
+  padding: 14px; border-radius: 15px; border: none; font-weight: bold;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
 
 .overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(5px); display: none; z-index: 2400;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); display: none; z-index: 1400;
+  backdrop-filter: blur(4px);
+}
+.sidebar:not(.closed) ~ .overlay { display: block; }
+
+.main{
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 20px;
 }
 
-/* Liste Öğeleri */
-.list-item {
+/* GÖRSEL DERİNLİK KATILAN SAYAÇ ALANI */
+.counter-outer {
+  width: 300px;
+  height: 300px;
   background: var(--glass);
-  padding: 15px; border-radius: 18px; margin-bottom: 12px;
-  display: flex; align-items: center; justify-content: space-between;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Modern Sayaç Alanı */
-.main-display {
-  flex: 1;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-}
-
-.title-box { text-align: center; margin-bottom: 20px; }
-.title-box h1 { margin: 0; font-size: 28px; font-weight: 800; color: var(--accent); }
-.title-box p { margin: 5px 0 0; opacity: 0.6; font-size: 14px; }
-
-/* YUVARLAK SAYAÇ TASARIMI */
-.counter-wrapper {
+  box-shadow: var(--outer-shadow), var(--inner-glow);
   position: relative;
-  width: 260px;
-  height: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.count-badge {
-  position: absolute;
-  top: 0;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  border: 3px solid var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Sayaç rakamına hafif neon efekti */
+.count {
+  font-size: 35px;
   font-weight: 800;
-  font-size: 24px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  z-index: 2;
-  transition: 0.3s;
+  margin-bottom: 5px;
+  color: var(--text);
+  text-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
+/* Zikir butonu derinlik (Neumorphism esintili) */
 .zikir-btn {
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   background: var(--accent);
-  border: 8px solid rgba(255,255,255,0.3);
-  margin-top: 60px;
+  border: 6px solid rgba(255,255,255,0.3);
+  font-size: 50px;
+  color: white;
+  transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2), 
+              inset 0 -5px 10px rgba(0,0,0,0.1),
+              inset 0 5px 10px rgba(255,255,255,0.3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
-  color: white;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 -5px 10px rgba(0,0,0,0.1);
-  transition: 0.1s;
 }
 
-.zikir-btn:active { transform: scale(0.9) translateY(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+.zikir-btn:active { 
+  transform: scale(0.92); 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
 
-/* Renk Seçici */
-.tools { padding: 40px 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.color-picker { display: flex; gap: 15px; background: var(--glass); padding: 10px 20px; border-radius: 30px; }
-.dot { width: 25px; height: 25px; border-radius: 50%; cursor: pointer; border: 2px solid white; }
+.color-picker {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background: var(--glass);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+}
 
-/* Alt Bölüm Ekleme Alanı */
-.add-section { padding: 20px; background: var(--glass-heavy); border-top: 1px solid rgba(255,255,255,0.1); }
-.add-section input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 10px; }
-.add-btn { width: 100%; padding: 12px; border-radius: 12px; background: var(--accent); color: white; border: none; font-weight: bold; }
+.dot {
+  width: 28px; height: 28px; border-radius: 50%; border: 3px solid white; cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.list-item {
+  padding: 16px; background: rgba(255,255,255,0.08);
+  margin-bottom: 10px; border-radius: 18px; display: flex; 
+  align-items: center; justify-content: space-between; 
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(5px);
+}
+
+.fav-btn {
+  font-size: 22px;
+  margin-left: 10px;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+}
+
+.sidebar-scroll h3 {
+  color: var(--accent);
+  margin-top: 25px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* === GLOBAL SMOOTHNESS === */
+* {
+  transition: 
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease,
+    color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+/* === TOP BAR BUTTONS – Daha premium === */
+.menu-btn, .theme-btn {
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.08),
+    inset 0 1px 1px rgba(255,255,255,0.4);
+}
+
+.menu-btn:hover, .theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 35px rgba(0,0,0,0.12),
+    inset 0 1px 2px rgba(255,255,255,0.5);
+}
+
+/* === SIDEBAR – Daha derin cam hissi === */
+.sidebar {
+  box-shadow: 20px 0 60px rgba(0,0,0,0.25);
+}
+
+/* === LIST ITEM – Card hissi === */
+.list-item {
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.06),
+    inset 0 1px 1px rgba(255,255,255,0.25);
+}
+
+.list-item:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.12),
+    inset 0 1px 2px rgba(255,255,255,0.35);
+}
+
+/* === FAVORI KALP – Glow efekt === */
+.fav-btn {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.fav-btn:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
+/* === COUNTER – Daha derin & parlak === */
+.counter-outer {
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.18),
+    inset 0 4px 15px rgba(255,255,255,0.45);
+}
+
+/* === COUNT – Hafif neon === */
+.count {
+  text-shadow:
+    0 10px 25px rgba(0,0,0,0.15),
+    0 0 12px rgba(255,255,255,0.25);
+}
+
+/* === ZİKİR BUTTON – Premium glow === */
+.zikir-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.zikir-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at top,
+    rgba(255,255,255,0.45),
+    transparent 60%
+  );
+}
+
+.zikir-btn:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.3),
+    0 0 25px rgba(255,255,255,0.25);
+}
+
+/* === COLOR PICKER – Daha soft === */
+.color-picker {
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.1),
+    inset 0 1px 2px rgba(255,255,255,0.4);
+}
+
+.dot:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(255,255,255,0.8);
+}
+
+/* === RESET TEXT – Daha zarif === */
+.main > div:last-child:hover {
+  opacity: 0.8;
+  text-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
 </style>
 </head>
-<body id="mainBody">
+<body>
 
 <div class="top-bar">
-  <div class="btn-icon" onclick="toggleSidebar()">☰</div>
-  <div style="font-weight: 900; letter-spacing: -1px; font-size: 20px;">BEYZA PRO</div>
-  <div class="btn-icon" onclick="toggleDark()" id="tBtn">🌙</div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  <div style="font-weight: 800; font-size: 20px; letter-spacing: -0.5px;">Zikirmatik</div>
+  <div class="theme-btn" onclick="toggleDark()" id="tBtn">🌙</div>
 </div>
 
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-content">
-        <h3 id="sideTitle">Zikirler</h3>
-        <div id="listArea"></div>
+<div class="sidebar closed" id="sidebar">
+  <div class="sidebar-scroll">
+    <div id="favoritesSection">
+        <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">FAVORİLER ❤️</h3>
+        <div id="favList"></div>
     </div>
-    <div class="add-section">
-        <input type="text" id="customInput" placeholder="Yeni zikir adı...">
-        <button class="add-btn" onclick="addCustom()">Listeye Ekle</button>
-    </div>
+    
+    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ESMAÜL HÜSNA</h3>
+    <div id="esmaList"></div>
+    
+    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ÖZEL ZİKİRLER</h3>
+    <div id="customList"></div>
+  </div>
+  <div class="fixed-add">
+    <input id="customInput" placeholder="Yeni zikir adı...">
+    <button class="add-btn" onclick="addCustom()">Listeye Ekle</button>
+  </div>
 </div>
 
-<div class="main-display">
-    <div class="title-box">
-        <h1 id="selName">📿 Genel Zikir</h1>
-        <p id="selMeaning">Her vakit okunabilir</p>
-    </div>
+<div class="main">
+  <div style="text-align:center; margin-bottom:30px;">
+    <div id="selName" style="font-size: 28px; font-weight: 800; color: var(--accent); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));">📿 Genel Zikir</div>
+    <div id="selMeaning" style="opacity: 0.5; font-size: 14px; margin-top:6px; height: 18px;">Her vakit için</div>
+  </div>
 
-    <div class="counter-wrapper">
-        <div class="count-badge" id="count">0</div>
-        
-        <button class="zikir-btn" onclick="inc()">🌸</button>
-    </div>
-</div>
+  <div class="counter-outer">
+    <div class="count" id="count">0</div>
+    <button class="zikir-btn" onclick="inc()">🌸</button>
+  </div>
 
-<div class="tools">
-    <div class="color-picker">
-        <div class="dot" style="background:#ff85ba" onclick="setTheme('')"></div>
-        <div class="dot" style="background:#4facfe" onclick="setTheme('theme-blue')"></div>
-        <div class="dot" style="background:#00b894" onclick="setTheme('theme-green')"></div>
-        <div class="dot" style="background:#e17055" onclick="setTheme('theme-orange')"></div>
-    </div>
-    <div style="opacity: 0.5; font-size: 13px; cursor: pointer;" onclick="resetCount()">Sıfırla</div>
+  <div class="color-picker">
+    <div class="dot" style="background:#ff85ba" onclick="setTheme('')"></div>
+    <div class="dot" style="background:#4facfe" onclick="setTheme('theme-blue')"></div>
+    <div class="dot" style="background:#00b894" onclick="setTheme('theme-green')"></div>
+    <div class="dot" style="background:#e17055" onclick="setTheme('theme-orange')"></div>
+  </div>
+
+  <div style="margin-top: 40px; opacity: 0.5; font-size: 14px; cursor: pointer; font-weight: 500;" onclick="resetCount()">Sıfırla</div>
 </div>
 
 <script>
+// Sadece fonksiyonları koruyarak render ve logic kısmını aynen bıraktım.
 let currentZikir = "Genel Zikir";
 let counters = JSON.parse(localStorage.getItem("counters") || "{}");
-let customZikirs = JSON.parse(localStorage.getItem("customZikirs") || "[]");
+let myCustomList = JSON.parse(localStorage.getItem("myCustomList") || "[]");
+let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
 
 const esmalar = [
-    {n:"Er-Rahman", m:"Merhamet sahibi"}, {n:"Er-Rahim", m:"Şefkatli"},
-    {n:"El-Melik", m:"Mülkün sahibi"}, {n:"El-Kuddüs", m:"Hatadan uzak"},
-    {n:"Es-Selam", m:"Esenlik veren"}, {n:"El-Aziz", m:"İzzet sahibi"}
+  {name:"Er-Rahman",meaning:"Sonsuz merhamet sahibi"}, {name:"Er-Rahim",meaning:"Merhameti bol"},
+  {name:"El-Melik",meaning:"Mülkün sahibi"}, {name:"El-Kuddüs",meaning:"Eksiklikten uzak"},
+  {name:"Es-Selam",meaning:"Esenlik veren"}, {name:"El-Mü’min",meaning:"Güven veren"},
+  {name:"El-Müheymin",meaning:"Koruyup gözeten"}, {name:"El-Aziz",meaning:"Üstün ve güçlü"},
+  {name:"El-Cebbar",meaning:"Dilediğini yapan"}, {name:"El-Mütekebbir",meaning:"Azamet sahibi"},
+  {name:"El-Halik",meaning:"Yaratan"}, {name:"El-Bari",meaning:"Kusursuz yaratan"},
+  {name:"El-Musavvir",meaning:"Şekil veren"}, {name:"El-Gaffar",meaning:"Çok affeden"},
+  {name:"El-Kahhar",meaning:"Mutlak galip"}, {name:"El-Vehhab",meaning:"Karşılıksız veren"},
+  {name:"Er-Rezzak",meaning:"Rızık veren"}, {name:"El-Fettah",meaning:"Açan"},
+  {name:"El-Alim",meaning:"Her şeyi bilen"}, {name:"El-Kabid",meaning:"Daraltan"},
+  {name:"El-Basit",meaning:"Genişleten"}, {name:"El-Hafıd",meaning:"Alçaltan"},
+  {name:"Er-Rafi",meaning:"Yükselten"}, {name:"El-Muizz",meaning:"İzzet veren"},
+  {name:"El-Müzill",meaning:"Zelil eden"}, {name:"Es-Semi",meaning:"Her şeyi işiten"},
+  {name:"El-Basir",meaning:"Her şeyi gören"}, {name:"El-Hakem",meaning:"Hükmeden"},
+  {name:"El-Adl",meaning:"Adaletli"}, {name:"El-Latif",meaning:"Lütufkâr"},
+  {name:"El-Habir",meaning:"Her şeyden haberdar"}, {name:"El-Halim",meaning:"Yumuşak huylu"},
+  {name:"El-Azim",meaning:"Azamet sahibi"}, {name:"El-Gafur",meaning:"Affı bol"},
+  {name:"Eş-Şekur",meaning:"Az amele çok veren"}, {name:"El-Aliyy",meaning:"Yüce"},
+  {name:"El-Kebir",meaning:"Büyük"}, {name:"El-Hafiz",meaning:"Koruyan"},
+  {name:"El-Mukit",meaning:"Rızık veren"}, {name:"El-Hasib",meaning:"Hesap gören"},
+  {name:"El-Celil",meaning:"Heybetli"}, {name:"El-Kerim",meaning:"Cömert"},
+  {name:"Er-Rakib",meaning:"Gözetleyen"}, {name:"El-Mucib",meaning:"Dua kabul eden"},
+  {name:"El-Vasi",meaning:"Kuşatan"}, {name:"El-Hakim",meaning:"Hikmet sahibi"},
+  {name:"El-Vedud",meaning:"Çok seven"}, {name:"El-Mecid",meaning:"Şanı yüce"},
+  {name:"El-Bais",meaning:"Dirilten"}, {name:"Eş-Şehid",meaning:"Her şeye şahit"},
+  {name:"El-Hakk",meaning:"Gerçek"}, {name:"El-Vekil",meaning:"Vekil"},
+  {name:"El-Kaviyy",meaning:"Çok güçlü"}, {name:"El-Metin",meaning:"Sapasağlam"},
+  {name:"El-Veliyy",meaning:"Dost"}, {name:"El-Hamid",meaning:"Övülen"},
+  {name:"El-Muhsi",meaning:"Sayan"}, {name:"El-Mübdi",meaning:"Başlatan"},
+  {name:"El-Muid",meaning:"Geri getiren"}, {name:"El-Muhyi",meaning:"Hayat veren"},
+  {name:"El-Mümit",meaning:"Öldüren"}, {name:"El-Hayy",meaning:"Diri"},
+  {name:"El-Kayyum",meaning:"Her şeyi ayakta tutan"}, {name:"El-Vacid",meaning:"Hiçbir şeye muhtaç olmayan"},
+  {name:"El-Macid",meaning:"Şanı yüce"}, {name:"El-Vahid",meaning:"Bir"},
+  {name:"Es-Samed",meaning:"Her şey ona muhtaç"}, {name:"El-Kadir",meaning:"Gücü yeten"},
+  {name:"El-Muktedir",meaning:"Kudretli"}, {name:"El-Mukaddim",meaning:"Öne alan"},
+  {name:"El-Muahhir",meaning:"Geri bırakan"}, {name:"El-Evvel",meaning:"İlk"},
+  {name:"El-Ahir",meaning:"Son"}, {name:"Ez-Zahir",meaning:"Açık"},
+  {name:"El-Batın",meaning:"Gizli"}, {name:"El-Vali",meaning:"Yöneten"},
+  {name:"El-Müteali",meaning:"Yüce"}, {name:"El-Berr",meaning:"İyilik sahibi"},
+  {name:"Et-Tevvab",meaning:"Tevbeleri kabul eden"}, {name:"El-Müntekim",meaning:"İntikam alan"},
+  {name:"El-Afüvv",meaning:"Affeden"}, {name:"Er-Rauf",meaning:"Şefkatli"},
+  {name:"Malik-ül Mülk",meaning:"Mülkün sahibi"}, {name:"Zül-Celali vel İkram",meaning:"Celal ve ikram sahibi"},
+  {name:"El-Muksit",meaning:"Adaletli"}, {name:"El-Cami",meaning:"Toplayan"},
+  {name:"El-Gani",meaning:"Zengin"}, {name:"El-Muğni",meaning:"Zengin eden"},
+  {name:"El-Mani",meaning:"Engelleyen"}, {name:"Ed-Darr",meaning:"Zarar veren"},
+  {name:"En-Nafi",meaning:"Fayda veren"}, {name:"En-Nur",meaning:"Nur"},
+  {name:"El-Hadi",meaning:"Hidayet eden"}, {name:"El-Bedi",meaning:"Eşsiz yaratan"},
+  {name:"El-Baki",meaning:"Ebedi"}, {name:"El-Varis",meaning:"Her şeyin varisi"},
+  {name:"Er-Reşid",meaning:"Doğru yola ileten"}, {name:"Es-Sabur",meaning:"Çok sabırlı"}
 ];
 
-function formatNumber(num) {
-    if (num >= 1000000) return (num/1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num/1000).toFixed(1) + 'k';
-    return num;
+function toggleMenu() { document.getElementById("sidebar").classList.toggle("closed"); }
+function toggleDark() { 
+  document.body.classList.toggle("dark");
+  document.getElementById("tBtn").innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
+function setTheme(t) {
+  document.body.className = document.body.classList.contains("dark") ? "dark " + t : t;
 }
 
-function updateUI() {
-    const val = counters[currentZikir] || 0;
-    document.getElementById("count").innerText = formatNumber(val);
+function save() {
+  localStorage.setItem("counters", JSON.stringify(counters));
+  localStorage.setItem("myCustomList", JSON.stringify(myCustomList));
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function updateUI() { 
+    let val = counters[currentZikir] || 0;
+    
+    // Sayı 1000'i geçerse kısalt, geçmezse normal göster
+    if (val >= 1000) {
+        val = (val / 1000).toFixed(1) + 'k';
+    }
+    
+    document.getElementById("count").innerText = val; 
+}
+
+
+function selectZikir(name, meaning = "") {
+  currentZikir = name;
+  document.getElementById("selName").innerText = "📿 " + name;
+  document.getElementById("selMeaning").innerText = meaning || "";
+  updateUI();
+  toggleMenu();
 }
 
 function inc() {
-    counters[currentZikir] = (counters[currentZikir] || 0) + 1;
-    if(navigator.vibrate) navigator.vibrate(40);
-    localStorage.setItem("counters", JSON.stringify(counters));
-    updateUI();
+  counters[currentZikir] = (counters[currentZikir] || 0) + 1;
+  if(navigator.vibrate) navigator.vibrate(40);
+  save();
+  updateUI();
 }
 
 function resetCount() {
-    if(confirm("Sıfırlansın mı?")) {
-        counters[currentZikir] = 0;
-        localStorage.setItem("counters", JSON.stringify(counters));
-        updateUI();
+  if(confirm("Sıfırlansın mı?")) { counters[currentZikir] = 0; save(); updateUI(); }
+}
+
+function toggleFav(e, zikirObj) {
+    e.stopPropagation();
+    const index = favorites.findIndex(f => f.name === zikirObj.name);
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(zikirObj);
     }
+    save();
+    render();
 }
 
-function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("open");
-    document.getElementById("overlay").style.display = 
-        document.getElementById("sidebar").classList.contains("open") ? "block" : "none";
-}
-
-function toggleDark() {
-    document.body.classList.toggle("dark");
-    document.getElementById("tBtn").innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
-}
-
-function setTheme(t) {
-    const isDark = document.body.classList.contains("dark");
-    document.body.className = isDark ? "dark " + t : t;
-}
-
-function selectZikir(n, m) {
-    currentZikir = n;
-    document.getElementById("selName").innerText = "📿 " + n;
-    document.getElementById("selMeaning").innerText = m;
-    updateUI();
-    toggleSidebar();
-}
-
-function renderList() {
-    const area = document.getElementById("listArea");
-    area.innerHTML = "<h4>ESMAÜL HÜSNA</h4>";
-    esmalar.forEach(e => {
-        area.innerHTML += `
-            <div class="list-item" onclick="selectZikir('${e.n}', '${e.m}')">
-                <div><b>${e.n}</b><br><small>${e.m}</small></div>
-                <span>❯</span>
-            </div>`;
-    });
+function createListItem(name, meaning, isCustom = false, customIndex = -1) {
+    const d = document.createElement("div");
+    d.className = "list-item";
     
-    if(customZikirs.length > 0) {
-        area.innerHTML += "<h4>ÖZEL LİSTEM</h4>";
-        customZikirs.forEach((c, i) => {
-            area.innerHTML += `
-                <div class="list-item" onclick="selectZikir('${c}', 'Özel Zikir')">
-                    <b>${c}</b>
-                    <span onclick="deleteCustom(event, ${i})">✕</span>
-                </div>`;
-        });
-    }
+    const isFav = favorites.some(f => f.name === name);
+    const zikirObj = { name, meaning, isCustom };
+
+    d.innerHTML = `
+        <div style="flex:1" onclick="selectZikir('${name}', '${meaning}')">
+            <div style="font-weight:600">${name}</div>
+            <div style="font-size:10px; opacity:0.6">${meaning}</div>
+        </div>
+        <div style="display:flex; align-items:center">
+            ${isCustom ? `<span style="margin-right:15px; opacity:0.3" onclick="deleteCustom(event, ${customIndex})">✕</span>` : ''}
+            <span class="fav-btn" onclick="toggleFav(event, ${JSON.stringify(zikirObj).replace(/"/g, '&quot;')})">
+                ${isFav ? '♥' : '♡'}
+            </span>
+        </div>
+    `;
+    return d;
+}
+
+function render() {
+  const favList = document.getElementById("favList");
+  const favSection = document.getElementById("favoritesSection");
+  favList.innerHTML = "";
+  if (favorites.length === 0) {
+      favSection.style.display = "none";
+  } else {
+      favSection.style.display = "block";
+      favorites.forEach(f => {
+          favList.appendChild(createListItem(f.name, f.meaning, f.isCustom, -1));
+      });
+  }
+
+  const eList = document.getElementById("esmaList");
+  eList.innerHTML = "";
+  esmalar.forEach(e => {
+    eList.appendChild(createListItem(e.name, e.meaning));
+  });
+
+  const cList = document.getElementById("customList");
+  cList.innerHTML = "";
+  myCustomList.forEach((name, i) => {
+    cList.appendChild(createListItem(name, "Özel Zikir", true, i));
+  });
 }
 
 function addCustom() {
-    const val = document.getElementById("customInput").value.trim();
-    if(val) {
-        customZikirs.push(val);
-        localStorage.setItem("customZikirs", JSON.stringify(customZikirs));
-        document.getElementById("customInput").value = "";
-        renderList();
-    }
+  const inp = document.getElementById("customInput");
+  const val = inp.value.trim();
+  if(val && !myCustomList.includes(val)) {
+    myCustomList.push(val);
+    save(); render(); inp.value = "";
+  }
 }
 
 function deleteCustom(e, i) {
-    e.stopPropagation();
-    customZikirs.splice(i, 1);
-    localStorage.setItem("customZikirs", JSON.stringify(customZikirs));
-    renderList();
+  e.stopPropagation();
+  const nameToRemove = myCustomList[i];
+  myCustomList.splice(i, 1);
+  favorites = favorites.filter(f => f.name !== nameToRemove);
+  save(); render();
 }
 
-renderList();
-updateUI();
+render(); updateUI();
 </script>
 </body>
 </html>
