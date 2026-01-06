@@ -160,13 +160,25 @@ body{
   position: relative;
 }
 
-/* Sayaç rakamına hafif neon efekti */
+/* SAYAÇ RAKAMI İÇİN YUVARLAK ROZET */
+.count-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 3px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.2);
+}
+
 .count {
-  font-size: 80px;
+  font-size: 40px; /* Büyük sayılar için küçültüldü */
   font-weight: 800;
-  margin-bottom: 5px;
   color: var(--text);
-  text-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  text-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
 /* Zikir butonu derinlik (Neumorphism esintili) */
@@ -239,7 +251,6 @@ body{
     opacity 0.25s ease;
 }
 
-/* === TOP BAR BUTTONS – Daha premium === */
 .menu-btn, .theme-btn {
   box-shadow:
     0 8px 25px rgba(0,0,0,0.08),
@@ -253,12 +264,10 @@ body{
     inset 0 1px 2px rgba(255,255,255,0.5);
 }
 
-/* === SIDEBAR – Daha derin cam hissi === */
 .sidebar {
   box-shadow: 20px 0 60px rgba(0,0,0,0.25);
 }
 
-/* === LIST ITEM – Card hissi === */
 .list-item {
   box-shadow:
     0 8px 20px rgba(0,0,0,0.06),
@@ -272,7 +281,6 @@ body{
     inset 0 1px 2px rgba(255,255,255,0.35);
 }
 
-/* === FAVORI KALP – Glow efekt === */
 .fav-btn {
   transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -282,21 +290,18 @@ body{
   filter: drop-shadow(0 0 6px var(--accent));
 }
 
-/* === COUNTER – Daha derin & parlak === */
 .counter-outer {
   box-shadow:
     0 30px 70px rgba(0,0,0,0.18),
     inset 0 4px 15px rgba(255,255,255,0.45);
 }
 
-/* === COUNT – Hafif neon === */
 .count {
   text-shadow:
     0 10px 25px rgba(0,0,0,0.15),
     0 0 12px rgba(255,255,255,0.25);
 }
 
-/* === ZİKİR BUTTON – Premium glow === */
 .zikir-btn {
   position: relative;
   overflow: hidden;
@@ -321,7 +326,6 @@ body{
     0 0 25px rgba(255,255,255,0.25);
 }
 
-/* === COLOR PICKER – Daha soft === */
 .color-picker {
   box-shadow:
     0 12px 30px rgba(0,0,0,0.1),
@@ -331,341 +335,6 @@ body{
 .dot:hover {
   transform: scale(1.2);
   box-shadow: 0 0 12px rgba(255,255,255,0.8);
-}
-
-/* === RESET TEXT – Daha zarif === */
-.main > div:last-child:hover {
-  opacity: 0.8;
-  text-shadow: 0 0 8px rgba(255,255,255,0.4);
-}
-
-/* ===============================
-   QUIET LUXURY – MINIMAL PREMIUM
-   =============================== */
-
-/* GENEL TEMİZLİK */
-body {
-  background-attachment: scroll;
-}
-
-* {
-  transition:
-    background-color .45s cubic-bezier(.4,0,.2,1),
-    color .35s ease,
-    box-shadow .45s cubic-bezier(.4,0,.2,1),
-    transform .35s cubic-bezier(.4,0,.2,1),
-    opacity .35s ease;
-}
-
-/* GLASS & GLOW AZALTMA */
-:root {
-  --glass: rgba(255,255,255,0.55);
-  --glass-heavy: rgba(255,255,255,0.85);
-  --outer-shadow: 0 18px 45px rgba(0,0,0,0.08);
-  --inner-glow: none;
-}
-
-body.dark {
-  --glass: rgba(30,30,35,0.75);
-  --glass-heavy: rgba(25,25,30,0.9);
-  --outer-shadow: 0 25px 60px rgba(0,0,0,0.55);
-}
-
-/* TOP BAR */
-.top-bar {
-  backdrop-filter: blur(12px);
-}
-
-.menu-btn,
-.theme-btn {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  font-size: 22px;
-  opacity: .7;
-}
-
-.menu-btn:hover,
-.theme-btn:hover {
-  opacity: 1;
-  transform: none;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 260px;
-  box-shadow: 15px 0 40px rgba(0,0,0,.12);
-}
-
-.sidebar-scroll {
-  padding-top: 85px;
-}
-
-.sidebar-scroll h3 {
-  font-size: 11px;
-  letter-spacing: 2px;
-  opacity: .5;
-}
-
-/* LIST ITEM → LİSTE GİBİ */
-.list-item {
-  background: transparent;
-  border: none;
-  border-radius: 14px;
-  box-shadow: none;
-  padding: 14px 12px;
-}
-
-.list-item:hover {
-  background: rgba(0,0,0,0.03);
-  transform: none;
-  box-shadow: none;
-}
-
-body.dark .list-item:hover {
-  background: rgba(255,255,255,0.04);
-}
-
-/* FAVORİ KALP */
-.fav-btn {
-  opacity: .35;
-  filter: none;
-}
-
-.fav-btn:hover {
-  opacity: .8;
-  transform: none;
-}
-
-/* ANA ALAN */
-.main {
-  justify-content: flex-start;
-  padding-top: 110px;
-}
-
-/* SEÇİLİ ZİKİR */
-#selName {
-  font-size: 26px !important;
-  font-weight: 700;
-  letter-spacing: -.5px;
-  filter: none !important;
-}
-
-#selMeaning {
-  opacity: .4 !important;
-}
-
-/* SAYAÇ → YILDIZ BURASI */
-.counter-outer {
-  width: 260px;
-  height: 260px;
-  border-radius: 32px;
-  background: var(--glass);
-  border: 1px solid rgba(0,0,0,.04);
-  box-shadow: var(--outer-shadow);
-}
-
-body.dark .counter-outer {
-  border-color: rgba(255,255,255,.05);
-}
-
-/* SAYI */
-.count {
-  font-size: 72px;
-  font-weight: 600;
-  letter-spacing: -1px;
-  text-shadow: none;
-}
-
-/* ZİKİR BUTONU */
-.zikir-btn {
-  width: 96px;
-  height: 96px;
-  font-size: 38px;
-  background: var(--accent);
-  border: none;
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.18);
-}
-
-.zikir-btn::after {
-  display: none;
-}
-
-.zikir-btn:active {
-  transform: scale(.96);
-  box-shadow:
-    0 6px 15px rgba(0,0,0,.25);
-}
-
-/* RENK SEÇİCİ */
-.color-picker {
-  background: transparent;
-  box-shadow: none;
-  margin-top: 26px;
-}
-
-.dot {
-  border: none;
-  opacity: .6;
-}
-
-.dot:hover {
-  opacity: 1;
-  transform: none;
-  box-shadow: none;
-}
-
-/* SIFIRLA */
-.main > div:last-child {
-  opacity: .35 !important;
-  font-size: 13px !important;
-}
-
-.main > div:last-child:hover {
-  opacity: .7 !important;
-  text-shadow: none;
-}
-
-/* ===============================
-   VAAOVV MODE – COSMIC GLOW
-   =============================== */
-
-/* ARKA PLAN – İPEK GİBİ */
-body {
-  background:
-    radial-gradient(circle at top, rgba(255,255,255,0.6), transparent 40%),
-    var(--bg-gradient);
-}
-
-/* GENEL GEÇİŞLER */
-* {
-  transition:
-    all .4s cubic-bezier(.2,.8,.2,1);
-}
-
-/* TOP BAR – FLOATING */
-.top-bar {
-  backdrop-filter: blur(20px);
-}
-
-.menu-btn, .theme-btn {
-  background: linear-gradient(145deg,
-    rgba(255,255,255,0.45),
-    rgba(255,255,255,0.15)
-  );
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.12),
-    inset 0 1px 2px rgba(255,255,255,0.6);
-}
-
-.menu-btn:hover, .theme-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-}
-
-/* SIDEBAR – IŞIKLI CAM */
-.sidebar {
-  background:
-    linear-gradient(180deg,
-      rgba(255,255,255,0.65),
-      rgba(255,255,255,0.45)
-    );
-  box-shadow:
-    30px 0 80px rgba(0,0,0,0.35);
-}
-
-/* LIST ITEM – PREMIUM CARD */
-.list-item {
-  background:
-    linear-gradient(145deg,
-      rgba(255,255,255,0.35),
-      rgba(255,255,255,0.15)
-    );
-  box-shadow:
-    0 12px 30px rgba(0,0,0,0.15),
-    inset 0 1px 1px rgba(255,255,255,0.4);
-}
-
-.list-item:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow:
-    0 20px 50px rgba(0,0,0,0.25);
-}
-
-/* FAVORİ KALP – AŞKLI */
-.fav-btn {
-  filter:
-    drop-shadow(0 0 6px var(--accent))
-    drop-shadow(0 0 14px rgba(255,255,255,0.6));
-}
-
-.fav-btn:hover {
-  transform: scale(1.25);
-}
-
-/* SAYAÇ – AURA YAYIYOR */
-.counter-outer {
-  background:
-    radial-gradient(circle at top,
-      rgba(255,255,255,0.6),
-      rgba(255,255,255,0.15) 60%
-    );
-  box-shadow:
-    0 40px 90px rgba(0,0,0,0.35),
-    0 0 80px rgba(255,133,186,0.35),
-    inset 0 6px 18px rgba(255,255,255,0.6);
-}
-
-/* SAYI – KUTSAL */
-.count {
-  text-shadow:
-    0 0 25px rgba(255,255,255,0.7),
-    0 0 45px rgba(255,133,186,0.6);
-}
-
-/* ZİKİR BUTONU – CANLI ÇEKİRDEK */
-.zikir-btn {
-  background:
-    radial-gradient(circle at top,
-      #fff,
-      var(--accent) 60%
-    );
-  box-shadow:
-    0 20px 50px rgba(0,0,0,0.35),
-    0 0 40px var(--accent),
-    inset 0 -6px 12px rgba(0,0,0,0.15);
-}
-
-.zikir-btn:hover {
-  transform: scale(1.08);
-}
-
-.zikir-btn:active {
-  transform: scale(.94);
-}
-
-/* RENK SEÇİCİ – IŞIK NOKTALARI */
-.color-picker {
-  background:
-    linear-gradient(145deg,
-      rgba(255,255,255,0.35),
-      rgba(255,255,255,0.15)
-    );
-}
-
-.dot {
-  box-shadow:
-    0 0 15px rgba(255,255,255,0.8);
-}
-
-.dot:hover {
-  transform: scale(1.3);
-}
-
-/* SIFIRLA – GHOST */
-.main > div:last-child {
-  opacity: .6;
-  letter-spacing: 2px;
 }
 </style>
 </head>
@@ -705,7 +374,9 @@ body {
   </div>
 
   <div class="counter-outer">
-    <div class="count" id="count">0</div>
+    <div class="count-circle">
+        <div class="count" id="count">0</div>
+    </div>
     <button class="zikir-btn" onclick="inc()">🌸</button>
   </div>
 
@@ -720,7 +391,6 @@ body {
 </div>
 
 <script>
-// Sadece fonksiyonları koruyarak render ve logic kısmını aynen bıraktım.
 let currentZikir = "Genel Zikir";
 let counters = JSON.parse(localStorage.getItem("counters") || "{}");
 let myCustomList = JSON.parse(localStorage.getItem("myCustomList") || "[]");
@@ -793,7 +463,22 @@ function save() {
   localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
-function updateUI() { document.getElementById("count").innerText = counters[currentZikir] || 0; }
+// SAYIYI KISALTMA FONKSİYONU
+function formatNumber(num) {
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 10000) return (num / 1000).toFixed(1) + 'k';
+    return num;
+}
+
+function updateUI() { 
+    const val = counters[currentZikir] || 0;
+    const countEl = document.getElementById("count");
+    countEl.innerText = formatNumber(val);
+    
+    // Sayı büyüdükçe fontu biraz küçültelim ki daireye sığsın
+    if(val > 9999) countEl.style.fontSize = "32px";
+    else countEl.style.fontSize = "40px";
+}
 
 function selectZikir(name, meaning = "") {
   currentZikir = name;
