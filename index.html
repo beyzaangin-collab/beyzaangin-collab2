@@ -162,12 +162,23 @@ body{
 
 /* Sayaç rakamına hafif neon efekti */
 .count {
-  font-size: 35px;
+  font-size: 32px;            /* Rakam boyutu kibarlaştı */
   font-weight: 800;
-  margin-bottom: 5px;
+  padding: 10px 25px;         /* Dikdörtgenin iç boşluğu */
+  background: var(--glass);   /* Şeffaf cam efekti */
+  border: 1px solid rgba(255,255,255,0.2); /* İnce sınır hattı */
+  border-radius: 18px;        /* Yumuşak köşeler (Squircle) */
   color: var(--text);
-  text-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  margin-bottom: 25px;        /* Butonla aradaki mesafe */
+  box-shadow: 
+    0 10px 20px rgba(0,0,0,0.05), 
+    inset 0 0 10px rgba(255,255,255,0.1); /* Hafif iç derinlik */
+  min-width: 100px;           /* Sayı tek haneliyken çok daralmaması için */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 /* Zikir butonu derinlik (Neumorphism esintili) */
 .zikir-btn {
