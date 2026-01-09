@@ -3,31 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Beyza Zikirmatik 3D</title>
+<title>Beyza Zikirmatik - Circle Edition</title>
 <style>
 :root {
   --accent: #ff85ba;
-  --bg: #e0e5ec; /* Neomorfik zemin rengi */
-  --text: #44474a;
-  --light: #ffffff;
-  --shadow: #a3b1c6;
+  --bg: #f8f9fd;
+  --text: #2d3436;
+  --panel: rgba(255, 255, 255, 0.8);
+  --ring-shadow: 0 15px 35px rgba(0,0,0,0.08);
 }
 
 body.dark {
-  --bg: #1a1c20;
+  --bg: #121417;
   --text: #f1f2f6;
-  --light: #25282c;
-  --shadow: #0d0e10;
+  --panel: rgba(30, 32, 38, 0.8);
   --accent: #ff9fcf;
+  --ring-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
 body.theme-blue { --accent: #4facfe; }
 body.theme-green { --accent: #00b894; }
 body.theme-orange { --accent: #e17055; }
 
+* { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
   height: 100vh;
@@ -36,183 +38,187 @@ body {
   transition: 0.4s ease;
 }
 
-.header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+.header { padding: 25px; display: flex; justify-content: space-between; align-items: center; }
 
-/* DERİNLİKLİ DIŞ HALKA (ÇUKUR) */
-.outer-well {
-  width: 300px;
-  height: 420px;
-  background: var(--bg);
-  border-radius: 50px;
+.btn-icon {
+  width: 45px; height: 45px; border-radius: 50%;
+  background: var(--panel); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: var(--ring-shadow);
+}
+
+.main {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: space-evenly;
+}
+
+/* YUVARLAK KATMANLI TASARIM */
+.orb-system {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 30px;
-  /* Dışa doğru çukur efekti */
-  box-shadow: inset 8px 8px 16px var(--shadow), inset -8px -8px 16px var(--light);
-  margin: auto;
-  padding: 20px;
 }
 
-/* YUVARLAK SAYAÇ PANELİ (KABARTMA) */
-.counter-ring {
-  width: 130px;
-  height: 130px;
+/* Sayaç Yuvarlağı */
+.counter-orb {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background: var(--bg);
+  background: var(--panel);
+  backdrop-filter: blur(15px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  /* Dışa doğru yükselen dairesel kabartma */
-  box-shadow: 8px 8px 16px var(--shadow), -8px -8px 16px var(--light);
-  border: 4px solid var(--bg);
+  box-shadow: var(--ring-shadow);
+  border: 1px solid rgba(255,255,255,0.2);
+  z-index: 2;
 }
 
-.count-val {
-  font-size: 32px;
+.count-num {
+  font-size: 36px;
   font-weight: 900;
   color: var(--accent);
-  text-shadow: 1px 1px 0px var(--light);
 }
 
-.count-label { font-size: 10px; opacity: 0.5; font-weight: bold; letter-spacing: 1px; }
+.count-label { font-size: 9px; opacity: 0.5; letter-spacing: 2px; font-weight: bold; }
 
-/* 3D ZİKİR BUTONU */
-.zikir-btn {
-  width: 140px;
-  height: 140px;
+/* Zikir Butonu Yuvarlağı */
+.button-orb {
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  background: var(--bg);
-  border: none;
-  font-size: 60px;
-  cursor: pointer;
+  background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Güçlü 3D kabartma gölgesi */
-  box-shadow: 12px 12px 24px var(--shadow), -12px -12px 24px var(--light);
-  transition: all 0.15s ease;
-  position: relative;
+  font-size: 70px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15), inset 0 -8px 15px rgba(0,0,0,0.1);
+  transition: 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 8px solid var(--panel);
 }
 
-/* Butonun üstündeki parlama efekti */
-.zikir-btn::after {
-  content: "";
-  position: absolute;
-  top: 15%; left: 15%; width: 70%; height: 35%;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-  border-radius: 50% 50% 20% 20%;
+.button-orb:active {
+  transform: scale(0.9);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-.zikir-btn:active {
-  /* Basıldığında çukurlaşma efekti */
-  box-shadow: inset 6px 6px 12px var(--shadow), inset -6px -6px 12px var(--light);
-  transform: scale(0.96);
+/* Alt Araçlar */
+.footer { padding-bottom: 40px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.theme-box {
+  display: flex; gap: 15px; padding: 12px 25px;
+  background: var(--panel); border-radius: 30px; box-shadow: var(--ring-shadow);
 }
-
-/* ALT ARAÇLAR */
-.tools { padding: 30px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.dots { display: flex; gap: 12px; padding: 10px; background: var(--bg); border-radius: 20px; box-shadow: 4px 4px 8px var(--shadow), -4px -4px 8px var(--light); }
 .dot { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 2px solid white; }
 
-.reset-txt { font-size: 11px; opacity: 0.5; font-weight: 800; cursor: pointer; letter-spacing: 2px; }
-
-/* SİDEBAR */
+/* Sidebar */
 .sidebar {
-  position: fixed; top: 0; left: 0; height: 100%; width: 280px;
-  background: var(--bg); z-index: 100; transform: translateX(-100%);
-  transition: 0.3s; padding: 30px 20px; border-right: 1px solid var(--shadow);
+  position: fixed; inset: 0; background: var(--bg); z-index: 1000;
+  transform: translateX(-100%); transition: 0.4s; padding: 40px 25px;
 }
 .sidebar.open { transform: translateX(0); }
+.list-item {
+  padding: 20px; background: var(--panel); margin-bottom: 15px;
+  border-radius: 20px; display: flex; justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div onclick="toggleSidebar()" style="cursor:pointer; font-size:24px;">☰</div>
-  <div id="activeName" style="font-weight: 800; font-size: 14px; color: var(--accent);">GENEL ZİKİR</div>
-  <div onclick="toggleDark()" style="cursor:pointer; font-size:24px;">🌓</div>
+  <div class="btn-icon" onclick="toggleS()">☰</div>
+  <div style="font-weight: 800; font-size: 14px; letter-spacing: 1px; opacity: 0.6;">BEYZA CIRCLE</div>
+  <div class="btn-icon" onclick="toggleD()" id="tIco">🌙</div>
 </div>
 
-<div class="sidebar" id="sidebar">
-    <h2 style="margin-bottom: 30px;">Zikirlerin</h2>
-    <div id="zikirList"></div>
-    <div style="margin-top: 50px;">
-        <input id="zInp" type="text" placeholder="Yeni Zikir..." style="width:100%; padding:10px; border-radius:10px; border:none; box-shadow: inset 3px 3px 6px var(--shadow);">
-        <button onclick="addZ()" style="width:100%; margin-top:10px; padding:10px; border-radius:10px; background:var(--accent); color:white; border:none; font-weight:bold;">EKLE</button>
+<div class="sidebar" id="side">
+  <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:30px;">
+    <h2 style="margin:0">Zikirlerim</h2>
+    <div class="btn-icon" onclick="toggleS()">✕</div>
+  </div>
+  <div id="zList"></div>
+</div>
+
+<div class="main">
+  <div style="text-align: center;">
+    <h1 id="zName" style="margin:0; font-size: 26px; font-weight: 900;">Genel Zikir</h1>
+    <span style="opacity:0.4; font-size:12px;">Huzura bir adım...</span>
+  </div>
+
+  <div class="orb-system">
+    <div class="counter-orb">
+      <span class="count-label">TOPLAM</span>
+      <span class="count-num" id="count">0</span>
     </div>
+    
+    <div class="button-orb" id="mainBtn" onclick="hit()">🌸</div>
+  </div>
 </div>
 
-<div class="outer-well">
-  <div class="counter-ring">
-    <div class="count-label">SAYI</div>
-    <div class="count-val" id="count">0</div>
+<div class="footer">
+  <div class="theme-box">
+    <div class="dot" style="background:#ff85ba" onclick="setT('')"></div>
+    <div class="dot" style="background:#4facfe" onclick="setT('theme-blue')"></div>
+    <div class="dot" style="background:#00b894" onclick="setT('theme-green')"></div>
+    <div class="dot" style="background:#e17055" onclick="setT('theme-orange')"></div>
   </div>
-
-  <button class="zikir-btn" onclick="inc()">🌸</button>
-</div>
-
-<div class="tools">
-  <div class="dots">
-    <div class="dot" style="background:#ff85ba" onclick="setTheme('')"></div>
-    <div class="dot" style="background:#4facfe" onclick="setTheme('theme-blue')"></div>
-    <div class="dot" style="background:#00b894" onclick="setTheme('theme-green')"></div>
-    <div class="dot" style="background:#e17055" onclick="setTheme('theme-orange')"></div>
-  </div>
-  <div class="reset-txt" onclick="res()">SIFIRLA</div>
+  <div style="font-size: 11px; font-weight: 800; opacity: 0.3; cursor: pointer; letter-spacing: 2px;" onclick="res()">SIFIRLA</div>
 </div>
 
 <script>
 let cur = "Genel Zikir";
-let data = JSON.parse(localStorage.getItem("z3d_v1") || '{"Genel Zikir": 0}');
-let list = JSON.parse(localStorage.getItem("z3d_list") || '["Genel Zikir"]');
+let db = JSON.parse(localStorage.getItem("z_db") || '{"Genel Zikir": 0}');
+let myL = JSON.parse(localStorage.getItem("z_list") || '["Genel Zikir", "Ya Sabur", "Ya Fettah"]');
 
-function inc() {
-  data[cur] = (data[cur] || 0) + 1;
+function hit() {
+  db[cur] = (db[cur] || 0) + 1;
   if(navigator.vibrate) navigator.vibrate(40);
   save();
   upd();
 }
 
 function upd() {
-  const val = data[cur] || 0;
-  document.getElementById("count").innerText = val >= 10000 ? (val/1000).toFixed(1) + 'k' : val;
+  const v = db[cur] || 0;
+  document.getElementById("count").innerText = v >= 10000 ? (v/1000).toFixed(1)+'k' : v;
 }
 
 function save() {
-  localStorage.setItem("z3d_v1", JSON.stringify(data));
-  localStorage.setItem("z3d_list", JSON.stringify(list));
+  localStorage.setItem("z_db", JSON.stringify(db));
+  localStorage.setItem("z_list", JSON.stringify(myL));
 }
 
-function res() { if(confirm("Sıfırlansın mı?")) { data[cur] = 0; save(); upd(); } }
-
-function toggleSidebar() {
-    const s = document.getElementById("sidebar");
-    s.classList.toggle("open");
-    render();
+function toggleS() {
+  document.getElementById("side").classList.toggle("open");
+  if(document.getElementById("side").classList.contains("open")) render();
 }
 
 function render() {
-    const area = document.getElementById("zikirList");
-    area.innerHTML = "";
-    list.forEach(z => {
-        area.innerHTML += `<div onclick="sel('${z}')" style="padding:15px; margin-bottom:10px; border-radius:12px; background:var(--bg); box-shadow: 4px 4px 8px var(--shadow); cursor:pointer;"><b>${z}</b></div>`;
-    });
+  const area = document.getElementById("zList");
+  area.innerHTML = "";
+  myL.forEach(z => {
+    area.innerHTML += `
+      <div class="list-item" onclick="sel('${z}')">
+        <b>${z}</b>
+        <span style="color:var(--accent)">${db[z] || 0}</span>
+      </div>`;
+  });
 }
 
-function sel(z) { cur = z; document.getElementById("activeName").innerText = z.toUpperCase(); upd(); toggleSidebar(); }
-
-function addZ() {
-    const v = document.getElementById("zInp").value.trim();
-    if(v && !list.includes(v)) { list.push(v); save(); render(); document.getElementById("zInp").value = ""; }
+function sel(z) { cur = z; document.getElementById("zName").innerText = z; upd(); toggleS(); }
+function res() { if(confirm("Sıfırlansın mı?")) { db[cur] = 0; save(); upd(); } }
+function toggleD() { 
+  document.body.classList.toggle("dark"); 
+  document.getElementById("tIco").innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
 }
-
-function toggleDark() { document.body.classList.toggle("dark"); }
-function setTheme(t) { 
-    const isDark = document.body.classList.contains("dark");
-    document.body.className = isDark ? "dark " + t : t; 
+function setT(t) { 
+  const isD = document.body.classList.contains("dark");
+  document.body.className = isD ? "dark " + t : t; 
 }
 
 upd();
