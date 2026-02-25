@@ -405,6 +405,7 @@ let currentZikir = "Genel Zikir";
 let counters = JSON.parse(localStorage.getItem("counters") || "{}");
 let myCustomList = JSON.parse(localStorage.getItem("myCustomList") || "[]");
 let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+let savedTheme = localStorage.getItem("selectedTheme") || "";
 
 const esmalar = [
   {name:"Er-Rahman",meaning:"Sonsuz merhamet sahibi"}, {name:"Er-Rahim",meaning:"Merhameti bol"},
@@ -461,10 +462,19 @@ const esmalar = [
 function toggleMenu() { document.getElementById("sidebar").classList.toggle("closed"); }
 function toggleDark() { 
   document.body.classList.toggle("dark");
-  document.getElementById("tBtn").innerText = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  const isDark = document.body.classList.contains("dark");
+  document.getElementById("tBtn").innerText = isDark ? "☀️" : "🌙";
+  localStorage.setItem("isDarkMode", isDark); // Karanlık mod bilgisini 
+  }
+  if (localStorage.getItem("isDarkMode") === "true") {
+    document.body.classList.add("dark");
+    document.getElementById("tBtn").innerText = "☀️";
 }
+
+
 function setTheme(t) {
   document.body.className = document.body.classList.contains("dark") ? "dark " + t : t;
+  localStorage.setItem("selectedTheme", t); // Temayı hafızaya kaydeder
 }
 
 function save() {
@@ -577,7 +587,9 @@ function deleteCustom(e, i) {
   save(); render();
 }
 
-render(); updateUI();
+render(); updateUI();  // Sayfa açıldığında kayıtlı temayı uygula
+setTheme(savedTheme);
+
 </script>
 </body>
 </html>
