@@ -162,18 +162,16 @@ body{
 
 /* Sayaç rakamına hafif neon efekti */
 .count {
-  font-size: 22px;            /* Rakam boyutu kibarlaştı */
+  font-size: 30px;            /* Rakamı biraz daha büyüttük */
   font-weight: 800;
-  padding: 10px 25px;         /* Dikdörtgenin iç boşluğu */
-  background: var(--glass);   /* Şeffaf cam efekti */
-  border: 1px solid rgba(255,255,255,0.2); /* İnce sınır hattı */
-  border-radius: 18px;        /* Yumuşak köşeler (Squircle) */
+  padding: 15px 40px;         /* Üst-alt 15px, sağ-sol 40px yaparak alanı genişlettik */
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 20px;
   color: var(--text);
-  margin-bottom: 25px;        /* Butonla aradaki mesafe */
-  box-shadow: 
-    0 10px 20px rgba(0,0,0,0.05), 
-    inset 0 0 10px rgba(255,255,255,0.1); /* Hafif iç derinlik */
-  min-width: 100px;           /* Sayı tek haneliyken çok daralmaması için */
+  margin-bottom: 25px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05), inset 0 0 10px rgba(255,255,255,0.1);
+  min-width: 180px;           /* Burayı 100'den 180'e çıkardık (Daha geniş oldu) */
   display: inline-flex;
   align-items: center;
   justify-content: center;
