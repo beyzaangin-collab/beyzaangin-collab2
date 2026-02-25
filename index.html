@@ -19,29 +19,31 @@
 <style>
 :root{
   --accent: #ff85ba;
-  --glass: rgba(255, 255, 255, 0.15);
-  --glass-heavy: rgba(255, 255, 255, 0.5);
+  --glass: rgba(255, 255, 255, 0.25); /* Daha belirgin beyazlık */
+  --glass-heavy: rgba(255, 255, 255, 0.45);
   --text: #2c3e50;
   --bg-gradient: linear-gradient(135deg, #fce4ec 0%, #e1f5fe 100%);
-  --outer-shadow: 0 20px 50px rgba(0,0,0,0.1);
-  --inner-glow: inset 0 2px 10px rgba(255,255,255,0.5);
+  --outer-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  --inner-glow: inset 0 2px 10px rgba(255,255,255,0.6);
+  --blur: blur(20px); /* Cam efekti derinliği */
 }
 
-/* --- YENİ TEMALAR --- */
-body.theme-blue { --accent: #4facfe; --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%); }
-body.theme-green { --accent: #00b894; --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%); }
-body.theme-orange { --accent: #e17055; --bg-gradient: linear-gradient(135deg, #fff3e0 0%, #fbe9e7 100%); }
-body.theme-purple { --accent: #a29bfe; --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #ede7f6 100%); }
-body.theme-gold { --accent: #d4af37; --bg-gradient: linear-gradient(135deg, #fff9c4 0%, #fffde7 100%); }
-body.theme-teal { --accent: #00cec9; --bg-gradient: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%); }
+/* --- TEMALAR (PASTEL & SOFT) --- */
+body.theme-blue { --accent: #4facfe; --bg-gradient: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); }
+body.theme-green { --accent: #00b894; --bg-gradient: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); }
+body.theme-orange { --accent: #e17055; --bg-gradient: linear-gradient(135deg, #fff3e0 0%, #ffccbc 100%); }
+body.theme-purple { --accent: #a29bfe; --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #d1c4e9 100%); }
+body.theme-gold { --accent: #d4af37; --bg-gradient: linear-gradient(135deg, #fff9c4 0%, #f0e68c 100%); }
+body.theme-teal { --accent: #00cec9; --bg-gradient: linear-gradient(135deg, #e0f2f1 0%, #80cbc4 100%); }
 
 body.dark{
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-heavy: rgba(30, 30, 45, 0.85);
-  --text: #ffffff;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-heavy: rgba(15, 23, 42, 0.7);
+  --text: #f8fafc;
   --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --outer-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  --outer-shadow: 0 30px 60px rgba(0,0,0,0.5);
   --inner-glow: inset 0 1px 1px rgba(255,255,255,0.1);
+  --blur: blur(25px);
 }
 
 *{
@@ -59,7 +61,7 @@ body{
   color: var(--text);
   height: 100vh;
   overflow: hidden;
-  transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
+  transition: background 1s ease;
 }
 
 .top-bar {
@@ -74,162 +76,109 @@ body{
 }
 
 .menu-btn, .theme-btn {
-  font-size: 24px;
+  font-size: 22px;
   background: var(--glass);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255,255,255,0.2);
-  width: 45px;
-  height: 45px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--text);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid rgba(255,255,255,0.3);
+  width: 45px; height: 45px;
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text);
+  box-shadow: var(--outer-shadow);
 }
 
 .sidebar{
   position: fixed;
   top: 0; left: 0; height: 100%; width: 290px;
   background: var(--glass-heavy);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border-right: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-right: 1px solid rgba(255,255,255,0.2);
   transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1500;
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
 }
 
 .sidebar.closed{ transform: translateX(-100%); }
-
-.sidebar-scroll{
-  flex: 1;
-  overflow-y: auto;
-  padding: 90px 15px 160px 15px;
-}
-
-.fixed-add{
-  position: absolute;
-  bottom: 0; left: 0; width: 100%;
-  padding: 25px 20px;
-  background: var(--glass-heavy);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.fixed-add input{
-  width: 100%; padding: 14px; border-radius: 15px;
-  border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
-  margin-bottom: 12px; font-size: 16px; outline: none; color: var(--text);
-}
-
-.add-btn {
-  width: 100%; background: var(--accent); color: white;
-  padding: 14px; border-radius: 15px; border: none; font-weight: bold;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4); display: none; z-index: 1400;
-  backdrop-filter: blur(4px);
-}
-.sidebar:not(.closed) ~ .overlay { display: block; }
 
 .main{
   width: 100%; height: 100%;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 20px;
 }
 
+/* --- GLASS COUNTER --- */
 .counter-outer {
-  width: 300px;
-  height: 300px;
+  width: 310px; height: 310px;
   background: var(--glass);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid rgba(255,255,255,0.4);
   border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   box-shadow: var(--outer-shadow), var(--inner-glow);
-  position: relative;
 }
 
-/* --- GENİŞLETİLMİŞ SAYAÇ ALANI --- */
 .count {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 800;
-  padding: 15px 40px;
-  background: var(--glass);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 20px;
+  padding: 12px 45px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 22px;
   color: var(--text);
   margin-bottom: 25px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05), inset 0 0 10px rgba(255,255,255,0.1);
-  min-width: 180px; 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  min-width: 190px;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 
 .zikir-btn {
-  width: 130px;
-  height: 130px;
+  width: 125px; height: 125px;
   border-radius: 50%;
   background: var(--accent);
-  border: 6px solid rgba(255,255,255,0.3);
+  border: 5px solid rgba(255,255,255,0.5);
   font-size: 50px;
-  color: white;
-  transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 -5px 10px rgba(0,0,0,0.1);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: 0.2s;
+  display: flex; align-items: center; justify-content: center;
 }
 
-.zikir-btn:active { transform: scale(0.92); }
+.zikir-btn:active { transform: scale(0.9); opacity: 0.9; }
 
 .color-picker {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-  padding: 12px 20px;
+  display: flex; gap: 10px; margin-top: 35px;
+  padding: 12px 18px;
   background: var(--glass);
-  border-radius: 30px;
-  backdrop-filter: blur(10px);
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 90%;
+  backdrop-filter: var(--blur);
+  border-radius: 25px;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 .dot {
-  width: 25px; height: 25px; border-radius: 50%; border: 2px solid white; cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: 0.2s;
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; cursor: pointer;
+  transition: 0.3s;
 }
-.dot:hover { transform: scale(1.2); }
+.dot:hover { transform: translateY(-3px); }
 
 .list-item {
-  padding: 16px; background: rgba(255,255,255,0.08);
+  padding: 16px; background: rgba(255,255,255,0.15);
   margin-bottom: 10px; border-radius: 18px; display: flex; 
   align-items: center; justify-content: space-between; 
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
 }
-
+/* Diğer stiller aynı kalıyor... */
+.sidebar-scroll{ flex: 1; overflow-y: auto; padding: 90px 15px 160px 15px; }
+.fixed-add{ position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 20px; background: var(--glass-heavy); backdrop-filter: var(--blur); border-top: 1px solid rgba(255,255,255,0.1); }
+.fixed-add input{ width: 100%; padding: 14px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); margin-bottom: 12px; font-size: 16px; outline: none; color: var(--text); }
+.add-btn { width: 100%; background: var(--accent); color: white; padding: 14px; border-radius: 15px; border: none; font-weight: bold; }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: none; z-index: 1400; backdrop-filter: blur(4px); }
+.sidebar:not(.closed) ~ .overlay { display: block; }
 .fav-btn { font-size: 22px; margin-left: 10px; }
-
 .sidebar-scroll h3 { color: var(--accent); margin-top: 25px; font-size: 12px; text-transform: uppercase; }
 </style>
 </head>
@@ -237,7 +186,7 @@ body{
 
 <div class="top-bar">
   <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div style="font-weight: 800; font-size: 20px; letter-spacing: -0.5px;">Zikirmatik</div>
+  <div style="font-weight: 800; font-size: 20px;">Zikirmatik</div>
   <div class="theme-btn" onclick="toggleDark()" id="tBtn">🌙</div>
 </div>
 
@@ -245,16 +194,9 @@ body{
 
 <div class="sidebar closed" id="sidebar">
   <div class="sidebar-scroll">
-    <div id="favoritesSection">
-        <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">FAVORİLER 🩷</h3>
-        <div id="favList"></div>
-    </div>
-    
-    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ESMAÜL HÜSNA</h3>
-    <div id="esmaList"></div>
-    
-    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ÖZEL ZİKİRLER</h3>
-    <div id="customList"></div>
+    <div id="favoritesSection"><h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">FAVORİLER 🩷</h3><div id="favList"></div></div>
+    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ESMAÜL HÜSNA</h3><div id="esmaList"></div>
+    <h3 style="letter-spacing: 1.5px; margin-bottom: 15px;">ÖZEL ZİKİRLER</h3><div id="customList"></div>
   </div>
   <div class="fixed-add">
     <input id="customInput" placeholder="Yeni zikir adı...">
@@ -265,7 +207,7 @@ body{
 <div class="main">
   <div style="text-align:center; margin-bottom:30px;">
     <div id="selName" style="font-size: 28px; font-weight: 800; color: var(--accent);">📿 Genel Zikir</div>
-    <div id="selMeaning" style="opacity: 0.5; font-size: 14px; margin-top:6px; height: 18px;">Her vakit için</div>
+    <div id="selMeaning" style="opacity: 0.6; font-size: 14px; margin-top:6px; height: 18px;">Her vakit için</div>
   </div>
 
   <div class="counter-outer">
@@ -283,7 +225,7 @@ body{
     <div class="dot" style="background:#00cec9" onclick="setTheme('theme-teal')"></div>
   </div>
 
-  <div style="margin-top: 40px; opacity: 0.5; font-size: 14px; cursor: pointer; font-weight: 500;" onclick="resetCount()">Sıfırla</div>
+  <div style="margin-top: 40px; opacity: 0.5; font-size: 14px; cursor: pointer;" onclick="resetCount()">Sıfırla</div>
 </div>
 
 <script>
@@ -291,8 +233,6 @@ let currentZikir = "Genel Zikir";
 let counters = JSON.parse(localStorage.getItem("counters") || "{}");
 let myCustomList = JSON.parse(localStorage.getItem("myCustomList") || "[]");
 let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
-// --- TEMA HAFIZASI ---
 let savedTheme = localStorage.getItem("selectedTheme") || "";
 let isDark = localStorage.getItem("isDarkMode") === "true";
 
@@ -349,7 +289,6 @@ const esmalar = [
 ];
 
 function toggleMenu() { document.getElementById("sidebar").classList.toggle("closed"); }
-
 function toggleDark() { 
   isDark = !isDark;
   const currentTheme = localStorage.getItem("selectedTheme") || "";
@@ -357,58 +296,40 @@ function toggleDark() {
   document.getElementById("tBtn").innerText = isDark ? "☀️" : "🌙";
   localStorage.setItem("isDarkMode", isDark);
 }
-
 function setTheme(t) {
   document.body.className = isDark ? "dark " + t : t;
   localStorage.setItem("selectedTheme", t);
 }
-
 function save() {
   localStorage.setItem("counters", JSON.stringify(counters));
   localStorage.setItem("myCustomList", JSON.stringify(myCustomList));
   localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-
 function updateUI() { 
     let val = counters[currentZikir] || 0;
-    // Rakam binlik formatta (1.000) görünsün ama 'k' harfi gelmesin
     document.getElementById("count").innerText = val.toLocaleString('tr-TR'); 
 }
-
 function selectZikir(name, meaning = "") {
   currentZikir = name;
   document.getElementById("selName").innerText = "📿 " + name;
   document.getElementById("selMeaning").innerText = meaning || "";
-  updateUI();
-  toggleMenu();
+  updateUI(); toggleMenu();
 }
-
 function inc() {
   counters[currentZikir] = (counters[currentZikir] || 0) + 1;
   if(navigator.vibrate) navigator.vibrate(40);
-  save();
-  updateUI();
+  save(); updateUI();
 }
-
-function resetCount() {
-  if(confirm("Sıfırlansın mı?")) { counters[currentZikir] = 0; save(); updateUI(); }
-}
-
+function resetCount() { if(confirm("Sıfırlansın mı?")) { counters[currentZikir] = 0; save(); updateUI(); } }
 function toggleFav(e, zikirObj) {
     e.stopPropagation();
     const index = favorites.findIndex(f => f.name === zikirObj.name);
-    if (index > -1) {
-        favorites.splice(index, 1);
-    } else {
-        favorites.push(zikirObj);
-    }
-    save();
-    render();
+    if (index > -1) favorites.splice(index, 1);
+    else favorites.push(zikirObj);
+    save(); render();
 }
-
 function createListItem(name, meaning, isCustom = false, customIndex = -1) {
-    const d = document.createElement("div");
-    d.className = "list-item";
+    const d = document.createElement("div"); d.className = "list-item";
     const isFav = favorites.some(f => f.name === name);
     const zikirObj = { name, meaning, isCustom };
     d.innerHTML = `
@@ -418,63 +339,25 @@ function createListItem(name, meaning, isCustom = false, customIndex = -1) {
         </div>
         <div style="display:flex; align-items:center">
             ${isCustom ? `<span style="margin-right:15px; opacity:0.3" onclick="deleteCustom(event, ${customIndex})">✕</span>` : ''}
-            <span class="fav-btn" onclick="toggleFav(event, ${JSON.stringify(zikirObj).replace(/"/g, '&quot;')})">
-                ${isFav ? '♥' : '♡'}
-            </span>
+            <span class="fav-btn" onclick="toggleFav(event, ${JSON.stringify(zikirObj).replace(/"/g, '&quot;')})">${isFav ? '♥' : '♡'}</span>
         </div>
     `;
     return d;
 }
-
 function render() {
-  const favList = document.getElementById("favList");
-  const favSection = document.getElementById("favoritesSection");
-  favList.innerHTML = "";
-  if (favorites.length === 0) {
-      favSection.style.display = "none";
-  } else {
-      favSection.style.display = "block";
-      favorites.forEach(f => {
-          favList.appendChild(createListItem(f.name, f.meaning, f.isCustom, -1));
-      });
-  }
-  const eList = document.getElementById("esmaList");
-  eList.innerHTML = "";
-  esmalar.forEach(e => {
-    eList.appendChild(createListItem(e.name, e.meaning));
-  });
-  const cList = document.getElementById("customList");
-  cList.innerHTML = "";
-  myCustomList.forEach((name, i) => {
-    cList.appendChild(createListItem(name, "Özel Zikir", true, i));
-  });
+  const fList = document.getElementById("favList"); document.getElementById("favoritesSection").style.display = favorites.length ? "block" : "none";
+  fList.innerHTML = ""; favorites.forEach(f => fList.appendChild(createListItem(f.name, f.meaning, f.isCustom)));
+  const eList = document.getElementById("esmaList"); eList.innerHTML = ""; esmalar.forEach(e => eList.appendChild(createListItem(e.name, e.meaning)));
+  const cList = document.getElementById("customList"); cList.innerHTML = ""; myCustomList.forEach((name, i) => cList.appendChild(createListItem(name, "Özel Zikir", true, i)));
 }
-
 function addCustom() {
-  const inp = document.getElementById("customInput");
-  const val = inp.value.trim();
-  if(val && !myCustomList.includes(val)) {
-    myCustomList.push(val);
-    save(); render(); inp.value = "";
-  }
+  const val = document.getElementById("customInput").value.trim();
+  if(val && !myCustomList.includes(val)) { myCustomList.push(val); save(); render(); document.getElementById("customInput").value = ""; }
 }
+function deleteCustom(e, i) { e.stopPropagation(); const name = myCustomList[i]; myCustomList.splice(i, 1); favorites = favorites.filter(f => f.name !== name); save(); render(); }
 
-function deleteCustom(e, i) {
-  e.stopPropagation();
-  const nameToRemove = myCustomList[i];
-  myCustomList.splice(i, 1);
-  favorites = favorites.filter(f => f.name !== nameToRemove);
-  save(); render();
-}
-
-// Başlangıç Ayarları
-if (isDark) {
-    document.body.classList.add("dark");
-    document.getElementById("tBtn").innerText = "☀️";
-}
-setTheme(savedTheme);
-render(); 
-updateUI();
+if (isDark) { document.body.classList.add("dark"); document.getElementById("tBtn").innerText = "☀️"; }
+setTheme(savedTheme); render(); updateUI();
 </script>
 </body>
 </html>
